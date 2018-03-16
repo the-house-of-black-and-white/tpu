@@ -90,10 +90,7 @@ class InputReader(object):
         (cls_targets, box_targets,
          num_positives) = anchor_labeler.label_anchors(boxes, classes)
 
-        # FIXME - WIDER face does no have an number source id
-        parts = source_id[0:-4].split('_')
-        fake_source_id = parts[0] + parts[-2] + parts[-1]
-        source_id = tf.string_to_number(fake_source_id, out_type=tf.float32)
+        source_id = tf.string_to_hash_bucket_fast(source_id, num_buckets=10)
 
         row = (image, cls_targets, box_targets, num_positives, source_id,
                image_scale)
