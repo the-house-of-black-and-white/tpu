@@ -90,7 +90,7 @@ class InputReader(object):
         (cls_targets, box_targets,
          num_positives) = anchor_labeler.label_anchors(boxes, classes)
 
-        source_id = tf.string_to_hash_bucket_fast(source_id, num_buckets=10)
+        source_id = tf.to_float(tf.string_to_hash_bucket_fast(source_id, num_buckets=2))
 
         row = (image, cls_targets, box_targets, num_positives, source_id,
                image_scale)
